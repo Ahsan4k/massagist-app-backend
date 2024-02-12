@@ -1,4 +1,4 @@
-const { Signup } = require("../models/signup");
+const Signup = require("../models/signup");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -6,7 +6,6 @@ export const Register = async (req: any, res: any) => {
   const details = req.body;
   try {
     const number = await Signup.findOne({ phoneNumber: details.phoneNumber });
-    console.log("number==========>", number);
     const email = await Signup.findOne({ email: details.email });
     if (number || number.length > 0 || email || email.length > 0) {
       res.json({ success: false, reason: "Account already exists" });

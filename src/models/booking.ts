@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-export const Booking = new mongoose.Schema({
+export const BookingSchema = new mongoose.Schema({
   type: String,
   startTime: String,
   endTime: String,
@@ -8,3 +8,5 @@ export const Booking = new mongoose.Schema({
   duration: String,
   token: String,
 });
+
+module.exports = mongoose.model("Booking", BookingSchema);

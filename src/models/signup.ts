@@ -8,3 +8,5 @@ export const SignupSchema = new mongoose.Schema({
   password: String,
   token: String,
 });
+
+module.exports = mongoose.model("Signup", SignupSchema);

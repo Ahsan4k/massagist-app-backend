@@ -1,5 +1,4 @@
-// const { Booking } = require("../models/booking");
-import { Booking } from "../models/booking";
+const Booking = require("../models/booking");
 const { Signup } = require("../models/signup");
 const moment = require("moment");
 
@@ -23,7 +22,7 @@ export const SetDate = async (req, res) => {
 
 export const GetDate = async (req, res) => {
   console.log("logged======>");
-  const dates = req.body.date;
+  const dates = req.body;
   console.log("dates=======>", dates);
   const exist = await Booking.find({ date: dates.date });
   if (exist.length > 0) {
