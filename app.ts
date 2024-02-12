@@ -1,4 +1,5 @@
 const Auth = require("./src/routes/auth");
+const Book = require("./src/routes/booking");
 const express = require("express");
 const { connectDB } = require("./src/db/connect");
 const showTimes = require("./src/controllers/times");
@@ -10,6 +11,7 @@ app.use(express.json());
 
 // app.get("/cool", (req, res) => res.send(cool()));
 app.use("/auth", Auth);
+app.use("/book", Book);
 
 app.get("/times", (req, res) => res.send(showTimes()));
 
