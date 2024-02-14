@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-export const SignupSchema = new mongoose.Schema({
+const SignupSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   email: String,
@@ -9,4 +9,4 @@ export const SignupSchema = new mongoose.Schema({
   token: String,
 });
 
-module.exports = mongoose.model("Signup", SignupSchema);
+export const Signup = mongoose.model("Signup", SignupSchema);
