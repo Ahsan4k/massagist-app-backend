@@ -1,5 +1,7 @@
-const Auth = require("./src/routes/auth");
-const Book = require("./src/routes/booking");
+// const Auth = require("./src/routes/auth");
+import { router as Auth } from "./src/routes/auth";
+import { router as Book } from "./src/routes/booking";
+// const Book = require("./src/routes/booking");
 const express = require("express");
 const { connectDB } = require("./src/db/connect");
 const showTimes = require("./src/controllers/times");
@@ -25,7 +27,6 @@ const port = process.env.PORT || 3000;
 
 const start = async () => {
   try {
-    console.log(process.env.MONGO_URI, "<==========");
     await connectDB(process.env.MONGO_URI);
     app.listen(port, () => console.log(`running on ${port}...`));
   } catch (error) {

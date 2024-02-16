@@ -8,5 +8,3 @@ router.get("/get", (req: any, res: any) => {
     '<div style="display:flex;align-self:center"><h1>Success</h1></div>'
   );
 });
-
-module.exports = router;

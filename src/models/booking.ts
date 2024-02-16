@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-export const BookingSchema = new mongoose.Schema({
+const BookingSchema = new mongoose.Schema({
   type: String,
   startTime: String,
   endTime: String,
@@ -9,4 +9,4 @@ export const BookingSchema = new mongoose.Schema({
   token: String,
 });
 
-module.exports = mongoose.model("Booking", BookingSchema);
+export const Booking = mongoose.model("Booking", BookingSchema);

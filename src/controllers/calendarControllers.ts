@@ -1,10 +1,10 @@
-const Booking = require("../models/booking");
-const { Signup } = require("../models/signup");
-const moment = require("moment");
+import { Booking } from "../models/booking";
+import { Signup } from "../models/signup";
+// const moment = require("moment");
 
 export const SetDate = async (req, res) => {
   const dates = req.body;
-  const exist = await Signup.findOne({ token: dates.token });
+  const exist = await Signup.find({ token: dates.token });
   if (exist.length > 0) {
     const insertData = new Booking({
       type: dates.type,
@@ -13,7 +13,7 @@ export const SetDate = async (req, res) => {
       token: dates.token,
       duration: dates.duration,
     });
-    insertData.save();
+    await insertData.save();
     res.json({ status: "Success" });
   } else {
     res.json({ status: "User does not exist" });
@@ -21,10 +21,10 @@ export const SetDate = async (req, res) => {
 };
 
 export const GetDate = async (req, res) => {
-  console.log("logged======>");
   const dates = req.body;
-  console.log("dates=======>", dates);
+  console.log("date=======>", dates);
   const exist = await Booking.find({ date: dates.date });
+  console.log("exist=========>", exist);
   if (exist.length > 0) {
     res.json({ data: exist });
   } else {
