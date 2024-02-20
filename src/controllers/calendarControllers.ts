@@ -4,14 +4,15 @@ import { Signup } from "../models/signup";
 
 export const SetDate = async (req, res) => {
   const dates = req.body;
+  console.log("body=========>", dates);
   const exist = await Signup.find({ token: dates.token });
   if (exist.length > 0) {
     const insertData = new Booking({
       type: dates.type,
-      time: dates.time,
+      startDate: dates.startDate,
+      endDate: dates.endDate,
       date: dates.date,
       token: dates.token,
-      duration: dates.duration,
     });
     await insertData.save();
     res.json({ status: "Success" });
