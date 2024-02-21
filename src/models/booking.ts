@@ -2,10 +2,9 @@ import mongoose from "mongoose";
 
 const BookingSchema = new mongoose.Schema({
   type: String,
-  startTime: String,
-  endTime: String,
+  startDate: String,
+  endDate: String,
   date: String,
-  duration: String,
   token: String,
 });
 
