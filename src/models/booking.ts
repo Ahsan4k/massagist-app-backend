@@ -6,6 +6,7 @@ const BookingSchema = new mongoose.Schema({
   endDate: Date,
   date: String,
   token: String,
+  count: Number,
 });
 
 export const Booking = mongoose.model("Booking", BookingSchema);
