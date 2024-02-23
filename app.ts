@@ -1,10 +1,10 @@
 // const Auth = require("./src/routes/auth");
 import { router as Auth } from "./src/routes/auth";
 import { router as Book } from "./src/routes/booking";
+import { router as Slots } from "./src/routes/timeslots";
 // const Book = require("./src/routes/booking");
 const express = require("express");
 const { connectDB } = require("./src/db/connect");
-const showTimes = require("./src/controllers/times");
 require("dotenv").config();
 
 const app = express();
@@ -15,7 +15,7 @@ app.use(express.json());
 app.use("/auth", Auth);
 app.use("/book", Book);
 
-app.get("/times", (req, res) => res.send(showTimes()));
+app.use("/timeslots", Slots);
 
 app.get("/", (req, res) => {
   res.send(
