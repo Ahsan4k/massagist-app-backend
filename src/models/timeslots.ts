@@ -5,6 +5,8 @@ const timeslotsSchema = new mongoose.Schema({
   startTime: String,
   endTime: String,
   date: String,
+  duration: String,
+  availability: Boolean
 });
 
 export const Timeslots = mongoose.model("Timeslots", timeslotsSchema);
