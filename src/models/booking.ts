@@ -5,6 +5,7 @@ const BookingSchema = new mongoose.Schema({
   startTime: String,
   endTime: String,
   date: String,
+  duration: Object,
   token: String,
   count: Number,
 });

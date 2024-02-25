@@ -32,6 +32,7 @@ export const SetDate = async (req, res) => {
         startTime: dates.startTime,
         endTime: dates.endTime,
         date: dates.date,
+        duration: dates.duration,
         token: dates.token,
         count: dates.count,
       });
