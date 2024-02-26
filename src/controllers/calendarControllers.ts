@@ -1,29 +1,24 @@
 import { Booking } from "../models/booking";
 import { Signup } from "../models/signup";
+import { Timeslots } from "../models/timeslots";
 // const moment = require("moment");
 
 export const SetDate = async (req, res) => {
   const dates = req.body;
-  // console.log("body=========>", dates);
   const filter = {
     date: dates.date,
-    startDate: dates.startDate,
-    endDate: dates.endDate,
+    startTime: dates.startTime,
+    endTime: dates.endTime,
   };
   const exist = await Signup.find({ token: dates.token });
   const recordExist = await Booking.find(filter);
 
   if (exist.length > 0) {
-    if (recordExist.length > 0 && recordExist[0]?.count === 2) {
-      return res.json({
-        status: "Failed",
-        message: "Can't book single slot more than 2 times.",
-      });
-    }
     if (recordExist.length > 0 && recordExist[0]?.count < 2) {
       const update = {
         count: dates.count + recordExist[0]?.count,
       };
+      await Timeslots.findOneAndUpdate(filter, { availability: false });
       await Booking.findOneAndUpdate(filter, update);
       res.json({ status: "Success", message: "Record successfully updated." });
     } else {
@@ -37,10 +32,13 @@ export const SetDate = async (req, res) => {
         count: dates.count,
       });
       await insertData.save();
+      if (dates.duration?.hands === "4") {
+        await Timeslots.findOneAndUpdate(filter, { availability: false });
+      }
       res.json({ status: "Success", message: "Record successfully created." });
     }
   } else {
-    res.json({ status: "User does not exist" });
+    res.json({ status: "Failed", message: "User does not exist" });
   }
 };
 
