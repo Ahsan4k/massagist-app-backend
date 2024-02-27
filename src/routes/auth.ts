@@ -6,10 +6,12 @@ const {
   Forgot,
   verifyNumber,
   Logout,
+  RequestOTP
 } = require("../controllers/authControllers");
 
 router.route("/signup").post(Register);
 router.route("/login").post(Login);
+router.route("/requestotp").post(RequestOTP);
 router.route("/forgotpassword").patch(Forgot);
 router.route("/verify").post(verifyNumber);
 router.route("/logout").delete(Logout);

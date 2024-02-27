@@ -1,6 +1,7 @@
 import { Signup } from "../models/signup";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
+import { sendMailHandler } from "../nodemailer";
 
 export const Register = async (req: any, res: any) => {
   const details = req.body;
@@ -119,6 +120,11 @@ export const verifyNumber = async (req: any, res: any) => {
     res.json(error);
   }
 };
+
+export const RequestOTP = async (req: any, res: any) => {
+  sendMailHandler(req.body.email);
+  res.json({status: 'Success'})
+}
 
 export const Logout = async (req: any, res: any) => {
   const authHeader = req.headers.authorization;
