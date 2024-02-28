@@ -122,8 +122,9 @@ export const verifyNumber = async (req: any, res: any) => {
 };
 
 export const RequestOTP = async (req: any, res: any) => {
-  sendMailHandler(req.body.email);
-  res.json({status: 'Success'})
+  if(sendMailHandler(req.body.email)){
+    res.json({status: 'Success'})
+  }
 }
 
 export const Logout = async (req: any, res: any) => {
