@@ -123,6 +123,7 @@ export const verifyNumber = async (req: any, res: any) => {
 
 export const RequestOTP = async (req: any, res: any) => {
   if(sendMailHandler(req.body.email)){
+    console.log(req.body.email)
     res.json({status: 'Success'})
   }
 }
