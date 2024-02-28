@@ -1,19 +1,9 @@
 const nodeMailer = require("nodemailer");
 
-let generatedOTP = () => {
-  let otp = "";
-  for (let i = 0; i < 6; i++) {
-    otp += Math.floor(Math.random() * 10);
-  }
-  return +otp;
-};
-
-const html = `
-    <p> Your OTP code is ${generatedOTP()} </p>
-`;
-
-export const sendMailHandler = (email: string) => {
+export const sendMailHandler = (email: string, otp: number) => {
   try {
+    const html = `<p> Your OTP code is ${otp} </p>`;
+
     const transporter = nodeMailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
@@ -24,15 +14,14 @@ export const sendMailHandler = (email: string) => {
       },
     });
 
-     transporter.sendMail({
+    transporter.sendMail({
       from: "Wahas Mughal <wahasali22@gmail.com>",
       to: email,
       subject: "test",
       html: html,
     });
 
-    return true
-
+    return true;
   } catch (e) {
     console.log(e);
     return false;

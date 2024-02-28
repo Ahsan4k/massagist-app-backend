@@ -1,4 +1,5 @@
 import { Signup } from "../models/signup";
+import {EmailOTP} from '../models/emailotp'
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { sendMailHandler } from "../nodemailer";
@@ -122,9 +123,21 @@ export const verifyNumber = async (req: any, res: any) => {
 };
 
 export const RequestOTP = async (req: any, res: any) => {
-  if(sendMailHandler(req.body.email)){
-    console.log(req.body.email)
-    res.json({status: 'Success'})
+  let generatedOTP = () => {
+    let otp = "";
+    for (let i = 0; i < 6; i++) {
+      otp += Math.floor(Math.random() * 10);
+    }
+    return +otp;
+  };
+  let otp = generatedOTP();
+  if(sendMailHandler(req.body.email, otp)){
+    const emailOTP = new EmailOTP({
+      email: req.body.email,
+      otp: otp,
+    });
+    await emailOTP.save();
+    res.json({status: 'Success', message: `OTP has been sent to your email ${req.body.email}`})
   }
 }
 
