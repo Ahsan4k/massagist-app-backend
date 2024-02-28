@@ -1,8 +1,9 @@
 import { Signup } from "../models/signup";
-import {EmailOTP} from '../models/emailotp'
+import { EmailOTP } from "../models/emailotp";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { sendMailHandler } from "../nodemailer";
+import moment = require("moment");
 
 export const Register = async (req: any, res: any) => {
   const details = req.body;
@@ -50,16 +51,16 @@ export const Login = async (req: any, res: any) => {
   const details = req.body;
   try {
     const data = await Signup.findOne({ email: details.email });
-    console.log('auth here', data)
+    console.log("auth here", data);
     if (!data) {
       res.json({ success: false, reason: "Email does not exist" });
     } else if (data) {
       const auth = await bcrypt.compare(details.password, data.password);
-      console.log('auth here')
+      console.log("auth here");
       if (!auth) {
         res.json({ success: false, reason: "Incorrect Password" });
       } else {
-        console.log('here')
+        console.log("here");
         const id = new Date();
         const token = jwt.sign(
           { id, username: `${details.firstName} ${details.lastName}` },
@@ -131,15 +132,27 @@ export const RequestOTP = async (req: any, res: any) => {
     return +otp;
   };
   let otp = generatedOTP();
-  if(sendMailHandler(req.body.email, otp)){
-    const emailOTP = new EmailOTP({
-      email: req.body.email,
-      otp: otp,
+  if (sendMailHandler(req.body.email, otp)) {
+    const record = await EmailOTP.find({ email: req.body.email });
+    if (record.length > 0) {
+      await EmailOTP.findOneAndUpdate(
+        { email: req.body.email },
+        { otp: otp, updatedAt: moment(new Date()).format('YYYY-MM-DD hh:mm:ss') }
+      );
+    } else {
+      const emailOTP = new EmailOTP({
+        email: req.body.email,
+        otp: otp,
+        createdAt: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+      });
+      await emailOTP.save();
+    }
+    res.json({
+      success: true,
+      message: `OTP has been sent to your email ${req.body.email}`,
     });
-    await emailOTP.save();
-    res.json({status: 'Success', message: `OTP has been sent to your email ${req.body.email}`})
   }
-}
+};
 
 export const Logout = async (req: any, res: any) => {
   const authHeader = req.headers.authorization;
