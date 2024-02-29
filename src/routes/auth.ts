@@ -4,7 +4,7 @@ const {
   Register,
   Login,
   Forgot,
-  verifyNumber,
+  verifyOTP,
   Logout,
   RequestOTP
 } = require("../controllers/authControllers");
@@ -13,7 +13,7 @@ router.route("/signup").post(Register);
 router.route("/login").post(Login);
 router.route("/requestotp").post(RequestOTP);
 router.route("/forgotpassword").patch(Forgot);
-router.route("/verify").post(verifyNumber);
+router.route("/verify").post(verifyOTP);
 router.route("/logout").post(Logout);
 router.get("/get", (req: any, res: any) => {
   res.send(

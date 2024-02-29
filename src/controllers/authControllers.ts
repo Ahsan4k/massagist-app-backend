@@ -109,14 +109,14 @@ export const Forgot = async (req: any, res: any) => {
   }
 };
 
-export const verifyNumber = async (req: any, res: any) => {
-  const body = req.body.phoneNumber;
+export const verifyOTP = async (req: any, res: any) => {
+  const otp = req.body.otp;
   try {
-    const result = await Signup.findOne({ phoneNumber: body.phoneNumber });
+    const result = await EmailOTP.findOne({ otp: otp});
     if (result) {
-      res.json({ success: true, message: "Number Exists" });
+      res.json({ success: true, message: "OTP has been successfully verified." });
     } else {
-      res.json({ success: false, message: "Number does nt ex" });
+      res.json({ success: false, message: "OTP verification failed." });
     }
   } catch (error) {
     res.json(error);
