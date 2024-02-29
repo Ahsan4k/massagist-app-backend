@@ -89,20 +89,21 @@ export const Login = async (req: any, res: any) => {
 };
 
 export const Forgot = async (req: any, res: any) => {
-  const body = req.body;
+  const email = req.body.email;
+  const password = req.body.password
   try {
-    const find = await Signup.findOne({ phoneNumber: body.phoneNumber });
-    if (!find) {
-      res.json({ success: false, reason: "Phone number does not exist" });
+    const user = await Signup.findOne({ email: email });
+    if (!user) {
+      res.json({ success: false, reason: "Email does not exist" });
     } else {
       const salt = await bcrypt.genSalt();
-      const hashedPassword = await bcrypt.hash(body.newPassword, salt);
+      const hashedPassword = await bcrypt.hash(password, salt);
       await Signup.findByIdAndUpdate(
-        { _id: find._id },
+        { _id: user._id },
         { password: hashedPassword },
         { new: true, runValidators: true }
       );
-      res.json({ success: true, message: "Password was updated" });
+      res.json({ success: true, message: "Your password has been changed successfully." });
     }
   } catch (error) {
     res.json(error);
