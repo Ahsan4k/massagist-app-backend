@@ -14,7 +14,7 @@ router.route("/login").post(Login);
 router.route("/requestotp").post(RequestOTP);
 router.route("/forgotpassword").patch(Forgot);
 router.route("/verify").post(verifyNumber);
-router.route("/logout").delete(Logout);
+router.route("/logout").post(Logout);
 router.get("/get", (req: any, res: any) => {
   res.send(
     '<div style="display:flex;align-self:center"><h1>Success</h1></div>'

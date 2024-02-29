@@ -155,14 +155,13 @@ export const RequestOTP = async (req: any, res: any) => {
 };
 
 export const Logout = async (req: any, res: any) => {
-  const authHeader = req.headers.authorization;
-  const token = authHeader?.split(" ")[1];
+  const token = req.body.token;
   try {
     const result = await Signup.findOne({ token: token });
     if (result) {
-      await Signup.findByIdAndDelete(
+      await Signup.updateOne(
         { _id: result._id },
-        { $unset: { token: 1 } }
+        { $unset: { token: "" } }
       );
       res.json({ success: true, message: "User Logged Out" });
     } else {
