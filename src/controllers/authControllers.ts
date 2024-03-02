@@ -51,16 +51,13 @@ export const Login = async (req: any, res: any) => {
   const details = req.body;
   try {
     const data = await Signup.findOne({ email: details.email });
-    console.log("auth here", data);
     if (!data) {
       res.json({ success: false, reason: "Email does not exist" });
     } else if (data) {
       const auth = await bcrypt.compare(details.password, data.password);
-      console.log("auth here");
       if (!auth) {
         res.json({ success: false, reason: "Incorrect Password" });
       } else {
-        console.log("here");
         const id = new Date();
         const token = jwt.sign(
           { id, username: `${details.firstName} ${details.lastName}` },
