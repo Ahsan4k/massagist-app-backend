@@ -59,3 +59,14 @@ export const GetDate = async (req, res) => {
     res.json({ data: [] });
   }
 };
+
+export const GetBookingHistory = async (req, res) => {
+  const book = req.body;
+  console.log("booking===========>", book);
+  const booking = await Booking.find({ email: book.email });
+  if (booking.length > 0) {
+    res.json({ data: booking });
+  } else {
+    res.json({ data: [] });
+  }
+};

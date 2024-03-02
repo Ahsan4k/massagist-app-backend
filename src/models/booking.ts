@@ -8,6 +8,7 @@ const BookingSchema = new mongoose.Schema({
   duration: Object,
   token: String,
   count: Number,
+  email: String,
 });
 
 export const Booking = mongoose.model("Booking", BookingSchema);
