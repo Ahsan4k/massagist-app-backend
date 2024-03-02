@@ -50,11 +50,19 @@ export const SetDate = async (req, res) => {
 
 export const GetDate = async (req, res) => {
   const dates = req.body;
-  console.log("date=======>", dates);
   const exist = await Booking.find({ date: dates.date });
-  console.log("exist=========>", exist);
   if (exist.length > 0) {
     res.json({ data: exist });
+  } else {
+    res.json({ data: [] });
+  }
+};
+
+export const GetBookingHistory = async (req, res) => {
+  const book = req.body;
+  const booking = await Booking.find({ email: book.email });
+  if (booking.length > 0) {
+    res.json({ data: booking });
   } else {
     res.json({ data: [] });
   }
