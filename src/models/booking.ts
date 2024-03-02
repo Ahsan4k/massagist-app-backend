@@ -9,6 +9,8 @@ const BookingSchema = new mongoose.Schema({
   token: String,
   count: Number,
   email: String,
+  hands: String,
+  price: String
 });
 
 export const Booking = mongoose.model("Booking", BookingSchema);
