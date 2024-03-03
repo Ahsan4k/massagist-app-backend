@@ -13,7 +13,7 @@ const BookingSchema = new mongoose.Schema({
   price: String,
   addons: {
     type: Array,
-    default: []
+    default: Array
   }
 });
 
