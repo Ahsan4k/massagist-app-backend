@@ -10,7 +10,11 @@ const BookingSchema = new mongoose.Schema({
   count: Number,
   email: String,
   hands: String,
-  price: String
+  price: String,
+  addons: {
+    type: Array,
+    default: []
+  }
 });
 
 export const Booking = mongoose.model("Booking", BookingSchema);
