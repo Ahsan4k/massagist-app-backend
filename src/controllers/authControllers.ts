@@ -87,7 +87,7 @@ export const Login = async (req: any, res: any) => {
 
 export const Forgot = async (req: any, res: any) => {
   const email = req.body.email;
-  const password = req.body.password
+  const password = req.body.password;
   try {
     const user = await Signup.findOne({ email: email });
     if (!user) {
@@ -100,7 +100,10 @@ export const Forgot = async (req: any, res: any) => {
         { password: hashedPassword },
         { new: true, runValidators: true }
       );
-      res.json({ success: true, message: "Your password has been changed successfully." });
+      res.json({
+        success: true,
+        message: "Your password has been changed successfully.",
+      });
     }
   } catch (error) {
     res.json(error);
@@ -110,9 +113,12 @@ export const Forgot = async (req: any, res: any) => {
 export const verifyOTP = async (req: any, res: any) => {
   const otp = req.body.otp;
   try {
-    const result = await EmailOTP.findOne({ otp: otp});
+    const result = await EmailOTP.findOne({ otp: otp });
     if (result) {
-      res.json({ success: true, message: "OTP has been successfully verified." });
+      res.json({
+        success: true,
+        message: "OTP has been successfully verified.",
+      });
     } else {
       res.json({ success: false, message: "OTP verification failed." });
     }
@@ -135,13 +141,16 @@ export const RequestOTP = async (req: any, res: any) => {
     if (record.length > 0) {
       await EmailOTP.findOneAndUpdate(
         { email: req.body.email },
-        { otp: otp, updatedAt: moment(new Date()).format('YYYY-MM-DD hh:mm:ss') }
+        {
+          otp: otp,
+          updatedAt: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
+        }
       );
     } else {
       const emailOTP = new EmailOTP({
         email: req.body.email,
         otp: otp,
-        createdAt: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+        createdAt: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
       });
       await emailOTP.save();
     }
@@ -157,15 +166,22 @@ export const Logout = async (req: any, res: any) => {
   try {
     const result = await Signup.findOne({ token: token });
     if (result) {
-      await Signup.updateOne(
-        { _id: result._id },
-        { $unset: { token: "" } }
-      );
+      await Signup.updateOne({ _id: result._id }, { $unset: { token: "" } });
       res.json({ success: true, message: "User Logged Out" });
     } else {
       res.json({ success: false, message: "Token does not exist" });
     }
   } catch (error) {
     res.json(error);
+  }
+};
+
+export const ChangeNumber = async (req, res) => {
+  const number = req.body.number;
+  try {
+    await Signup.findOneAndUpdate({ number }, { number });
+    res.json({ status: "Phone number updated" });
+  } catch (error) {
+    res.json({ status: "Sorry, there was some error" });
   }
 };
