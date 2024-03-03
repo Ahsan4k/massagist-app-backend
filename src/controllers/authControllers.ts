@@ -180,8 +180,8 @@ export const ChangeNumber = async (req, res) => {
   const number = req.body.number;
   try {
     await Signup.findOneAndUpdate({ number }, { number });
-    res.json({ status: "Phone number updated" });
+    res.json({ success: true, message: "Phone number updated" });
   } catch (error) {
-    res.json({ status: "Sorry, there was some error" });
+    res.json({ success: false, message: "Failed to update." });
   }
 };
