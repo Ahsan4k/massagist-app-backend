@@ -2,8 +2,7 @@
 import { router as Auth } from "./src/routes/auth";
 import { router as Book } from "./src/routes/booking";
 import { router as Slots } from "./src/routes/timeslots";
-import admin from "firebase-admin";
-
+const admin = require("firebase-admin");
 const serviceAccount = require("./massagist-b74d8-firebase-adminsdk-9e2z6-70d0ee7a9a.json");
 // const Book = require("./src/routes/booking");
 const express = require("express");
