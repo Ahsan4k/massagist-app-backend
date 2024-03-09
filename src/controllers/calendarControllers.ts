@@ -40,6 +40,7 @@ export const SetDate = async (req, res) => {
         email: dates.email,
         hands: dates.hands,
         price: dates.price,
+        addons: dates.addons
       });
       await insertData.save();
       // if (dates.duration?.hands === "4") {
