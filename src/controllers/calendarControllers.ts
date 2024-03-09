@@ -1,6 +1,7 @@
 import { Booking } from "../models/booking";
 import { Signup } from "../models/signup";
-import { Timeslots } from "../models/timeslots";
+import { getMessaging } from "firebase-admin/messaging";
+
 // const moment = require("moment");
 
 export const SetDate = async (req, res) => {
@@ -38,12 +39,29 @@ export const SetDate = async (req, res) => {
         count: dates.count,
         email: dates.email,
         hands: dates.hands,
-        price: dates.price
+        price: dates.price,
       });
       await insertData.save();
       // if (dates.duration?.hands === "4") {
       //   await Timeslots.findOneAndUpdate(filter, { availability: false });
       // }
+      const getToken = Signup.findOne({ email: dates.email });
+      const message = {
+        notification: {
+          title: "Appointment",
+          body: `You have booked on ${dates.date} from ${dates.startTime} to ${dates.endTime}`,
+        },
+        data: {
+          screen: "Notifications",
+        },
+        token: getToken[0].fcmToken,
+      };
+
+      try {
+        await getMessaging().send(message);
+      } catch (error) {
+        console.log(error);
+      }
       res.json({ status: "Success", message: "Record successfully created." });
     }
   } else {

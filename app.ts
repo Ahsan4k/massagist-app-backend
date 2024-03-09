@@ -2,6 +2,9 @@
 import { router as Auth } from "./src/routes/auth";
 import { router as Book } from "./src/routes/booking";
 import { router as Slots } from "./src/routes/timeslots";
+import admin from "firebase-admin";
+
+const serviceAccount = require("./massagist-b74d8-firebase-adminsdk-9e2z6-70d0ee7a9a.json");
 // const Book = require("./src/routes/booking");
 const express = require("express");
 const { connectDB } = require("./src/db/connect");
@@ -34,3 +37,7 @@ const start = async () => {
   }
 };
 start();
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});

@@ -7,6 +7,7 @@ const SignupSchema = new mongoose.Schema({
   phoneNumber: String,
   password: String,
   token: String,
+  fcmToken: String,
 });
 
 export const Signup = mongoose.model("Signup", SignupSchema);
