@@ -30,6 +30,7 @@ export const Register = async (req: any, res: any) => {
       email: details.email,
       password: newPassword,
       token: token,
+      fcmToken: details.fcmToken,
     });
     await insertData.save();
     res.json({
@@ -65,7 +66,7 @@ export const Login = async (req: any, res: any) => {
         );
         await Signup.findByIdAndUpdate(
           { _id: data._id },
-          { token: token },
+          { token: token, fcmToken: details.fcmToken },
           { new: true, runValidators: true }
         );
         res.json({
@@ -178,7 +179,7 @@ export const Logout = async (req: any, res: any) => {
 
 export const ChangeNumber = async (req, res) => {
   const number = req.body.number;
-  const email = req.body.email
+  const email = req.body.email;
   try {
     await Signup.findOneAndUpdate({ email: email }, { phoneNumber: number });
     res.json({ success: true, message: "Phone number updated" });

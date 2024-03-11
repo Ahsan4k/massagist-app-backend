@@ -40,17 +40,19 @@ export const SetDate = async (req, res) => {
         email: dates.email,
         hands: dates.hands,
         price: dates.price,
-        addons: dates.addons
+        addons: dates.addons,
       });
       await insertData.save();
       // if (dates.duration?.hands === "4") {
       //   await Timeslots.findOneAndUpdate(filter, { availability: false });
       // }
-      const getToken = Signup.findOne({ email: dates.email });
+      const getToken = await Signup.find({ email: dates.email });
+      console.log("email=====>", dates.email);
+      console.log("getToken=======>", getToken);
       const message = {
         notification: {
           title: "Appointment",
-          body: `You have booked on ${dates.date} from ${dates.startTime} to ${dates.endTime}`,
+          body: `You have booked an appointment on ${dates.date} from ${dates.startTime} to ${dates.endTime}`,
         },
         data: {
           screen: "Notifications",
@@ -61,7 +63,7 @@ export const SetDate = async (req, res) => {
       try {
         await getMessaging().send(message);
       } catch (error) {
-        console.log(error);
+        console.log("firebaseError========>", error);
       }
       res.json({ status: "Success", message: "Record successfully created." });
     }
